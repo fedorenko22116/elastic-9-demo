@@ -23,7 +23,7 @@ python3 generate_scenario.py
 1. Open Kibana: http://localhost:5602
 2. Login with credentials above
 3. Go to **Management** → **Stack Management** → **Connectors**
-4. Create OpenAI connector with `gpt-4o`
+4. Create OpenAI connector with `gpt-4.1-mini`
 5. Click AI Assistant icon (✨) and select your connector
 6. Create data view: `logs-app` or `logs-*`
 
