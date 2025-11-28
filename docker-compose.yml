@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.2.1
+    container_name: elasticsearch-v9
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - xpack.security.authc.api_key.enabled=true
+      - ELASTIC_PASSWORD=elastic123
+      - xpack.ml.enabled=true
+    ports:
+      - "9201:9200"
+    volumes:
+      - es_data_v9:/usr/share/elasticsearch/data
+    networks:
+      - elastic-v9
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.2.1
+    container_name: kibana-v9
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=elastic123
+      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=a7a6311933d3503b89bc2dbc36572c33a6c10925682e591bffcab6911c06786d
+      - XPACK_REPORTING_ENCRYPTIONKEY=a7a6311933d3503b89bc2dbc36572c33a6c10925682e591bffcab6911c06786d
+      - XPACK_SECURITY_ENCRYPTIONKEY=a7a6311933d3503b89bc2dbc36572c33a6c10925682e591bffcab6911c06786d
+      - SERVER_PORT=5602
+    ports:
+      - "5602:5602"
+    depends_on:
+      - elasticsearch
+    networks:
+      - elastic-v9
+
+volumes:
+  es_data_v9:
+
+networks:
+  elastic-v9:
